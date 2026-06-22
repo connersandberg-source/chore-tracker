@@ -16,10 +16,10 @@ select u.id,
        m.display_name,
        u.email
 from (values
-  ('mom@chore.test',    'Mom',    'admin'),
-  ('zane@chore.test',   'Zane',   'child'),
-  ('alaina@chore.test', 'Alaina', 'child'),
-  ('conner@chore.test', 'Conner', 'child')
+  ('kelsandberg@gmail.com',    'Mom',    'admin'),
+  ('zanesandberg@gmail.com',   'Zane',   'child'),
+  ('alainasandberg@gmail.com', 'Alaina', 'child'),
+  ('connersandberg@gmail.com', 'Conner', 'child')
 ) as m(email, display_name, role)
 join auth.users u on lower(u.email) = lower(m.email)
 on conflict (id) do update
