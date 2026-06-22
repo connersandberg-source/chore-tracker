@@ -1,5 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ChoreTracker">
-  <rect width="512" height="512" rx="112" fill="#2a7fb8"/>
-  <path d="M150 268l64 64 148-152" fill="none" stroke="#ffffff" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="384" cy="150" r="34" fill="#f6c344"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4aa8e0"/>
+      <stop offset="1" stop-color="#2a7fb8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#bg)"/>
+  <path d="M146 270l70 70 158-166" fill="none" stroke="#ffffff" stroke-width="50"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M384 92l16.8 34.6 38.2 5.3-27.8 26.7 6.8 37.9-34-18.2-34 18.2 6.8-37.9-27.8-26.7 38.2-5.3z"
+        fill="#f6c344"/>
 </svg>

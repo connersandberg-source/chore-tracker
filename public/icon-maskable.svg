@@ -1,7 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ChoreTracker">
+  <defs>
+    <linearGradient id="bgm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4aa8e0"/>
+      <stop offset="1" stop-color="#2a7fb8"/>
+    </linearGradient>
+  </defs>
   <!-- Full-bleed background so any mask shape stays on-brand -->
-  <rect width="512" height="512" fill="#2a7fb8"/>
-  <!-- Check kept inside the central 80% safe zone for maskable cropping -->
-  <path d="M176 266l54 54 122-126" fill="none" stroke="#ffffff" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="356" cy="176" r="26" fill="#f6c344"/>
+  <rect width="512" height="512" fill="url(#bgm)"/>
+  <!-- Check + star kept inside the central 80% safe zone for maskable cropping -->
+  <path d="M172 268l56 56 128-132" fill="none" stroke="#ffffff" stroke-width="42"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M356 150l13 27 29.7 4.1-21.5 20.8 5.1 29.6-26.3-14-26.3 14 5.1-29.6-21.5-20.8 29.7-4.1z"
+        fill="#f6c344"/>
 </svg>

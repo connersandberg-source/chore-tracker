@@ -5,9 +5,9 @@
 //   - Everything else (incl. Supabase API / auth on another origin): passthrough.
 // We deliberately NEVER cache authenticated data responses — only the app shell
 // and same-origin static assets — so a kid can never see another state's data.
-const CACHE = "chore-tracker-v1";
+const CACHE = "chore-tracker-v2";
 const OFFLINE_URL = "/offline";
-const PRECACHE = [OFFLINE_URL, "/icon.svg?v=1", "/manifest.webmanifest"];
+const PRECACHE = [OFFLINE_URL, "/icon.svg?v=2", "/manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

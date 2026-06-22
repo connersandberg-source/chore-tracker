@@ -268,7 +268,12 @@ function ChoreForm({
 
   return (
     <div className="fixed inset-0 z-30 flex items-end justify-center bg-ink/40 sm:items-center">
-      <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-background p-5 sm:rounded-2xl">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={editing ? "Edit chore" : "New chore"}
+        className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-background p-5 sm:rounded-2xl"
+      >
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-display text-xl font-bold text-ink">
             {editing ? "Edit chore" : "New chore"}

@@ -156,7 +156,12 @@ export default function AdminRewardsPage() {
 
       {draft && (
         <div className="fixed inset-0 z-30 flex items-end justify-center bg-ink/40 sm:items-center">
-          <div className="w-full max-w-md space-y-4 rounded-t-2xl bg-background p-5 sm:rounded-2xl">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={editingId ? "Edit reward" : "New reward"}
+            className="w-full max-w-md space-y-4 rounded-t-2xl bg-background p-5 sm:rounded-2xl"
+          >
             <div className="flex items-center justify-between">
               <h2 className="font-display text-xl font-bold text-ink">
                 {editingId ? "Edit reward" : "New reward"}

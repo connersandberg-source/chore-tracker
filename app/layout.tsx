@@ -33,13 +33,13 @@ export const metadata: Metadata = {
   },
   formatDetection: { telephone: false },
   icons: {
-    icon: [{ url: "/icon.svg?v=1", type: "image/svg+xml" }],
-    shortcut: ["/icon.svg?v=1"],
+    icon: [{ url: "/icon.svg?v=2", type: "image/svg+xml" }],
+    shortcut: ["/icon.svg?v=2"],
     // A static PNG under a versioned URL: iOS caches home-screen icons by URL
     // and ignores updates, so a changed icon must ship under a new name.
     // Exactly 180×180 — iOS's install-time resampler softens any other size.
     apple: [
-      { url: "/apple-touch-icon-v1.png", sizes: "180x180", type: "image/png" },
+      { url: "/apple-touch-icon-v2.png", sizes: "180x180", type: "image/png" },
     ],
   },
   // Older iOS uses the apple-prefixed flag; Next emits the modern one too.
