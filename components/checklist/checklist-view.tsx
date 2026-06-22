@@ -5,6 +5,7 @@ import { Check, Clock, Star } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { useRealtime } from "@/providers/realtime-provider";
 import { listChores } from "@/lib/db/repositories/chores";
 import {
   checkOff,
@@ -55,6 +56,9 @@ export function ChecklistView({
     // eslint-disable-next-line react-hooks/set-state-in-effect
     reload();
   }, [reload]);
+
+  // Live: when Mom approves/rejects, reflect it on the kid's screen instantly.
+  useRealtime(reload);
 
   const setItemStatus = (choreId: string, patch: Partial<ChecklistItem>) =>
     setItems((prev) =>

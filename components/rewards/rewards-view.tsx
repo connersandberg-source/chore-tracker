@@ -5,6 +5,7 @@ import { Clock, Gift, Lock, Star, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { useRealtime } from "@/providers/realtime-provider";
 import { listRewards } from "@/lib/db/repositories/rewards";
 import { getBalance } from "@/lib/db/repositories/balances";
 import {
@@ -45,6 +46,9 @@ export function RewardsView({ childId }: { childId: string }) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     reload();
   }, [reload]);
+
+  // Live: when Mom fulfills/denies or points change, update balance + requests.
+  useRealtime(reload);
 
   async function withBusy(key: string, fn: () => Promise<unknown>) {
     if (busy.has(key)) return;

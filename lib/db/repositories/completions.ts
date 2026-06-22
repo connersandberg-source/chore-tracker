@@ -27,6 +27,20 @@ export async function listCompletionsForDate(
   return Completions.parse(data);
 }
 
+// All of the family's completions for one calendar day (admin dashboard). RLS
+// gives an admin every child's rows.
+export async function listFamilyCompletionsForDate(
+  sb: SupabaseClient,
+  isoDate: string,
+): Promise<ChoreCompletion[]> {
+  const { data, error } = await sb
+    .from("chore_completions")
+    .select("*")
+    .eq("due_date", isoDate);
+  if (error) throw error;
+  return Completions.parse(data);
+}
+
 // Check a chore off for a given day: insert a PENDING completion. status and
 // points_awarded use DB defaults ('pending' / 0) — the child's RLS insert policy
 // requires exactly that, and that the chore is assigned to them.

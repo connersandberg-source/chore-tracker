@@ -3,6 +3,7 @@ import { Baloo_2, Nunito } from "next/font/google";
 
 import { ServiceWorkerRegistrar } from "@/components/shell/service-worker-registrar";
 import { AuthProvider } from "@/providers/auth-provider";
+import { RealtimeProvider } from "@/providers/realtime-provider";
 import "./globals.css";
 
 const sans = Nunito({
@@ -64,7 +65,9 @@ export default function RootLayout({
     >
       <body className="min-h-dvh bg-background text-foreground">
         <ServiceWorkerRegistrar />
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <RealtimeProvider>{children}</RealtimeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

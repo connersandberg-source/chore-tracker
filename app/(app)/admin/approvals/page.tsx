@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Check, Gift, X } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
+import { useRealtime } from "@/providers/realtime-provider";
 import {
   approve,
   listPending,
@@ -44,6 +45,9 @@ export default function ApprovalsPage() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     reload();
   }, [reload]);
+
+  // Live: a kid's check-off / reward request appears here instantly.
+  useRealtime(reload);
 
   async function act(id: string, fn: () => Promise<void>) {
     if (busy.has(id)) return;
