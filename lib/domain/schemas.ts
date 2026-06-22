@@ -18,7 +18,16 @@ export type CompletionStatus = z.infer<typeof CompletionStatus>;
 export type RedemptionStatus = z.infer<typeof RedemptionStatus>;
 
 // Reusable primitives
-const uuid = z.string().uuid();
+// Format-only UUID check (8-4-4-4-12 hex). Postgres' `uuid` type is the real
+// integrity authority and does NOT enforce the RFC 4122 variant/version nibbles,
+// so a perfectly valid stored id like the seed family `11111111-…` would be
+// rejected by Zod's strict `.uuid()`. We only need format validation here.
+const uuid = z
+  .string()
+  .regex(
+    /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
+    "invalid uuid",
+  );
 const isoDate = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, "expected YYYY-MM-DD"); // a calendar day
