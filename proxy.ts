@@ -2,29 +2,36 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { updateSession } from "@/lib/supabase/proxy";
 
-// Next 16 renamed `middleware` -> `proxy`. This refreshes the Supabase session
-// and gates routes by auth state. Note: this is a UX gate only — the real
-// security boundary is RLS in Postgres (see docs/architecture.md §0).
-const AUTH_ROUTES = ["/login"];
+// Next 16 renamed `middleware` -> `proxy`. Refreshes the Supabase session and
+// gates routes by auth state. This is a UX gate only — the real security
+// boundary is RLS in Postgres (docs/architecture.md §0).
+//
+// IMPORTANT: any redirect we return MUST carry over the auth cookies that
+// updateSession refreshed onto `response`; otherwise the refreshed session is
+// dropped and the app can ping-pong between "/" and "/login" (ERR_TOO_MANY_
+// REDIRECTS). We also deliberately do NOT bounce a signed-in user off /login
+// here — the login page navigates after sign-in, and bouncing based on "has an
+// auth user" while pages gate on "has a profile" can loop.
+function redirectTo(
+  pathname: string,
+  request: NextRequest,
+  source: NextResponse,
+) {
+  const url = request.nextUrl.clone();
+  url.pathname = pathname;
+  const redirect = NextResponse.redirect(url);
+  source.cookies.getAll().forEach((c) => redirect.cookies.set(c));
+  return redirect;
+}
 
 export async function proxy(request: NextRequest) {
   const { response, user } = await updateSession(request);
   const { pathname } = request.nextUrl;
-
-  const isAuthRoute = AUTH_ROUTES.some((r) => pathname.startsWith(r));
+  const isAuthRoute = pathname.startsWith("/login");
 
   // Not signed in and not on an auth route → go to /login.
   if (!user && !isAuthRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
-  }
-
-  // Signed in but on an auth route → send to the app root (role router).
-  if (user && isAuthRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
+    return redirectTo("/login", request, response);
   }
 
   return response;
