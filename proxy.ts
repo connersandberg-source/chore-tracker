@@ -38,9 +38,10 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Run on everything except static assets, image optimizer, PWA files, and
-  // the offline shell (must load without a session).
+  // Run on everything except the Next internals, the offline shell, and any
+  // static file (by extension). Excluding by extension means icon version bumps
+  // (e.g. apple-touch-icon-v2.png) never get caught by the auth gate.
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|manifest.webmanifest|sw.js|offline|icon.svg|icon-maskable.svg|apple-touch-icon-v1.png).*)",
+    "/((?!_next/static|_next/image|offline|.*\\.(?:svg|png|ico|js|json|webmanifest|txt)$).*)",
   ],
 };
