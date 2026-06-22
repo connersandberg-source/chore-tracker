@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+/*
+  ChoreTracker — "Sunny Day" design system
+  Bright, friendly, and clearly legible for kids, but tidy enough for a parent's
+  dashboard. Light only by design. Token names mirror shadcn/ui so generated
+  components theme automatically. Colors are contrast-checked for WCAG AA body
+  text on their surface, and white text on filled actions.
+*/
+
+:root {
+  /* Raw brand palette */
+  --sky: #4aa8e0; /* friendly blue — brand accent */
+  --sky-deep: #2a7fb8; /* filled actions (AA on white) */
+  --sun: #f6c344; /* sunny yellow — points / rewards */
+  --grass: #66b266; /* positive / "done" */
+  --grass-deep: #3f8a44; /* success text/icon on light (AA) */
+  --coral: #ef8a6b; /* secondary highlight */
+  --cream: #fbf8f1; /* app background */
+  --ink: #2c3338; /* primary text */
+
+  /* shadcn semantic tokens */
+  --background: var(--cream);
+  --foreground: var(--ink);
+
+  --card: #ffffff;
+  --card-foreground: var(--ink);
+
+  --popover: #ffffff;
+  --popover-foreground: var(--ink);
+
+  --primary: var(--sky-deep);
+  --primary-foreground: #f7fbfe;
+
+  --secondary: #eef3f7;
+  --secondary-foreground: var(--ink);
+
+  --muted: #eef1f4;
+  --muted-foreground: #5f6a72;
+
+  --accent: var(--sun);
+  --accent-foreground: var(--ink);
+
+  --destructive: #d36149;
+  --destructive-foreground: #fff8f5;
+
+  --success: var(--grass-deep);
+  --success-foreground: #f7fcf7;
+  --success-soft: #e6f3e6;
+
+  /* Points/reward emphasis */
+  --points: #c8941a; /* readable gold for point counts (AA on white) */
+  --points-soft: #fcf3da;
+
+  --border: #e4e7eb;
+  --input: #d9dee3;
+  --ring: var(--sky);
+
+  --radius: 1rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-soft: var(--success-soft);
+
+  --color-points: var(--points);
+  --color-points-soft: var(--points-soft);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Brand colors as direct utilities (bg-sky, text-grass, ...) */
+  --color-sky: var(--sky);
+  --color-sky-deep: var(--sky-deep);
+  --color-sun: var(--sun);
+  --color-grass: var(--grass);
+  --color-coral: var(--coral);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-display: var(--font-baloo), var(--font-nunito), ui-rounded, system-ui,
+    sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/40;
+  }
+
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+    /* Prevent rubber-band overscroll revealing white behind the app shell */
+    overscroll-behavior-y: none;
+  }
+
+  /* Headings and the wordmark use the rounded display face */
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Safe-area helpers for the installed PWA (iPhone) */
+@layer utilities {
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pb-safe-nav {
+    /* bottom nav height + iPhone home indicator */
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  }
+  .min-h-dvh {
+    min-height: 100dvh;
+  }
+}

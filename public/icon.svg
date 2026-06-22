@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ChoreTracker">
+  <rect width="512" height="512" rx="112" fill="#2a7fb8"/>
+  <path d="M150 268l64 64 148-152" fill="none" stroke="#ffffff" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="384" cy="150" r="34" fill="#f6c344"/>
+</svg>
