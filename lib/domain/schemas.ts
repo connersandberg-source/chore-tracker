@@ -98,6 +98,15 @@ export const Reward = z.object({
   created_at: timestamp,
 });
 
+// Editable fields of a reward (create/edit form). family_id is set by the repo.
+export const RewardDraft = z.object({
+  title: z.string().trim().min(1, "Give the reward a name").max(80),
+  description: z.string().trim().max(300).nullable(),
+  cost: z.number().int().positive("Cost must be at least 1"),
+  active: z.boolean(),
+});
+export type RewardDraft = z.infer<typeof RewardDraft>;
+
 export const Redemption = z.object({
   id: uuid,
   family_id: uuid,

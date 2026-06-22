@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { CheckSquare, LayoutDashboard, ListChecks, LogOut } from "lucide-react";
+import {
+  CheckSquare,
+  Gift,
+  LayoutDashboard,
+  ListChecks,
+  LogOut,
+  Stamp,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/providers/auth-provider";
@@ -11,10 +18,15 @@ import type { UserRole } from "@/lib/domain";
 type NavItem = { href: string; label: string; icon: React.ElementType };
 
 // Only links to routes that exist today; expands as later phases land pages.
-const CHILD_NAV: NavItem[] = [{ href: "/", label: "Chores", icon: CheckSquare }];
+const CHILD_NAV: NavItem[] = [
+  { href: "/", label: "Chores", icon: CheckSquare },
+  { href: "/rewards", label: "Rewards", icon: Gift },
+];
 const ADMIN_NAV: NavItem[] = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin", label: "Home", icon: LayoutDashboard },
   { href: "/admin/chores", label: "Chores", icon: ListChecks },
+  { href: "/admin/approvals", label: "Approve", icon: Stamp },
+  { href: "/admin/rewards", label: "Rewards", icon: Gift },
 ];
 
 export function AppNav({ role }: { role: UserRole }) {

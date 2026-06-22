@@ -5,6 +5,13 @@ import { ChoreCompletion } from "@/lib/domain";
 
 const Completions = z.array(ChoreCompletion);
 
+// A pending completion joined to its chore + child for the approval queue.
+export const PendingCompletion = ChoreCompletion.extend({
+  chore: z.object({ title: z.string(), points: z.number().int() }).nullable(),
+  child: z.object({ display_name: z.string() }).nullable(),
+});
+export type PendingCompletion = z.infer<typeof PendingCompletion>;
+
 // A child's completion rows for one calendar day. RLS scopes to the caller.
 export async function listCompletionsForDate(
   sb: SupabaseClient,
@@ -46,5 +53,40 @@ export async function undo(
     .from("chore_completions")
     .delete()
     .eq("id", completionId);
+  if (error) throw error;
+}
+
+// Admin: all pending completions in the family, with chore + child for display.
+export async function listPending(
+  sb: SupabaseClient,
+): Promise<PendingCompletion[]> {
+  const { data, error } = await sb
+    .from("chore_completions")
+    .select("*, chore:chores(title, points), child:profiles!child_id(display_name)")
+    .eq("status", "pending")
+    .order("completed_at", { ascending: true });
+  if (error) throw error;
+  return z.array(PendingCompletion).parse(data);
+}
+
+// Admin approves / rejects a completion via the SECURITY DEFINER RPCs (approval
+// atomically snapshots points_awarded; a child can never do this).
+export async function approve(
+  sb: SupabaseClient,
+  completionId: string,
+): Promise<void> {
+  const { error } = await sb.rpc("approve_completion", {
+    p_completion: completionId,
+  });
+  if (error) throw error;
+}
+
+export async function reject(
+  sb: SupabaseClient,
+  completionId: string,
+): Promise<void> {
+  const { error } = await sb.rpc("reject_completion", {
+    p_completion: completionId,
+  });
   if (error) throw error;
 }
