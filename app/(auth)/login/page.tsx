@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { CheckCircle2, LoaderCircle } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -17,19 +15,25 @@ export default function LoginPage() {
     e.preventDefault();
     setBusy(true);
     setError(null);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password,
-    });
-    if (error) {
-      setError("That email or password didn't work. Try again.");
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (error) {
+        setError("That email or password didn't work. Try again.");
+        setBusy(false);
+        return;
+      }
+      // Hard navigation (not router.replace) so the server renders with the
+      // freshly-written session cookie — avoids a soft-nav/cookie race that
+      // bounces back to login. The role router at "/" sends admins to /admin.
+      window.location.assign("/");
+    } catch {
+      setError("Something went wrong signing in. Please try again.");
       setBusy(false);
-      return;
     }
-    // Proxy will route to the right place based on role.
-    router.replace("/");
-    router.refresh();
   }
 
   return (
