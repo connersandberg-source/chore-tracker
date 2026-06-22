@@ -60,6 +60,21 @@ export const Chore = z.object({
   created_at: timestamp,
 });
 
+// The editable fields of a chore (create/edit form payload). family_id and
+// created_by are supplied by the repository from the signed-in admin, never the
+// form, so they can't be spoofed.
+export const ChoreDraft = z.object({
+  child_id: uuid,
+  title: z.string().trim().min(1, "Give the chore a name").max(80),
+  description: z.string().trim().max(300).nullable(),
+  points: z.number().int().min(0).max(1000),
+  recurrence_type: RecurrenceType,
+  weekdays: weekdays,
+  start_date: isoDate,
+  active: z.boolean(),
+});
+export type ChoreDraft = z.infer<typeof ChoreDraft>;
+
 export const ChoreCompletion = z.object({
   id: uuid,
   family_id: uuid,

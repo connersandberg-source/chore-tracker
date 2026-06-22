@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { CheckSquare, LayoutDashboard, LogOut } from "lucide-react";
+import { CheckSquare, LayoutDashboard, ListChecks, LogOut } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/providers/auth-provider";
@@ -14,6 +14,7 @@ type NavItem = { href: string; label: string; icon: React.ElementType };
 const CHILD_NAV: NavItem[] = [{ href: "/", label: "Chores", icon: CheckSquare }];
 const ADMIN_NAV: NavItem[] = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/chores", label: "Chores", icon: ListChecks },
 ];
 
 export function AppNav({ role }: { role: UserRole }) {
